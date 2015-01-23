@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="User Credentials">
+        <EditTextPreference
+            android:key="pref_username"
+            android:title="Username"
+            android:summary="Username to login to ServiceNow with"
+            android:defaultValue="NO VALUE"/>
+        <EditTextPreference
+            android:key="pref_password"
+            android:title="Password"
+            android:summary="Password to login to ServiceNow with"
+            android:defaultValue="NO VALUE"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="API URL">
+        <EditTextPreference
+            android:key="pref_apiBase"
+            android:title="API URL"
+            android:summary="URL of ServiceNow API"
+            android:defaultValue="https://myinstance.service-now.com/api"/>
+        </PreferenceCategory>
+
+</PreferenceScreen>
