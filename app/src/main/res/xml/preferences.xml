@@ -6,12 +6,12 @@
             android:key="pref_username"
             android:title="Username"
             android:summary="Username to login to ServiceNow with"
-            android:defaultValue="NO VALUE"/>
+            android:defaultValue="username"/>
         <EditTextPreference
             android:key="pref_password"
             android:title="Password"
             android:summary="Password to login to ServiceNow with"
-            android:defaultValue="NO VALUE"/>
+            android:defaultValue="password"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="API URL">
