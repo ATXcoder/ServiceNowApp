@@ -1,10 +1,17 @@
 package com.groundupcoding.servicenow;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -19,11 +26,36 @@ public class LoginActivity extends ActionBarActivity {
 
         String userName = Settings.Read(this, "pref_username");
 
-        // Check for saved credentials
+        // Check for username
         if(userName != "username")
         {
             username.setText(userName);
         }
+
+        // Check for password
+
+        // Check for instance(s)
+        DataBaseHelper db = new DataBaseHelper(this);
+        Cursor cursor = db.getInstances();
+
+        // make an adapter from the cursor
+        String[] from = new String[] {"name"};
+        int[] to = new int[] {android.R.id.text1};
+        SimpleCursorAdapter sca = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor, from, to);
+        // set layout for activated adapter
+        sca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        Spinner instanceList = (Spinner)findViewById(R.id.spinner_instance);
+        instanceList.setAdapter(sca);
+
+        // set spinner listener to display the selected item id
+
+        instanceList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                Toast.makeText(getApplicationContext(), "Selected ID=" + id, Toast.LENGTH_LONG).show();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
 
