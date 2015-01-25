@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.groundupcoding.servicenow.models.Instance;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,13 +20,20 @@ import java.util.List;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "ServiceNowDB.db";
     public static final String TABLE_INSTANCE = "instance";
+    public static final String TABLE_SETTINGS = "settings";
+
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_ADDRESS = "address";
+
+    public static final String COLUMN_USERNAME = "userName";
+    public static final String COLUMN_LOGIN = "loginTime";
+    public static final String COLUMN_INSTANCE = "currentInstance";
+    public static final String COLUMN_PASSWORD = "password";
 
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -40,7 +51,70 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 TABLE_INSTANCE + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_NAME
                 + " TEXT," + COLUMN_ADDRESS + " TEXT" + ")";
+
+        String DROP_SETTINGS = "DROP TABLE IF EXISTS " + TABLE_SETTINGS;
+
+        String CREATE_SETTINGS_TABLE = "CREATE TABLE " +
+                TABLE_SETTINGS + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_LOGIN + " TEXT,"
+                + COLUMN_USERNAME + " TEXT,"
+                + COLUMN_PASSWORD + " TEXT,"
+                + COLUMN_INSTANCE + " TEXT)";
+
         db.execSQL(CREATE_INSTANCE_TABLE);
+        db.execSQL(DROP_SETTINGS);
+        db.execSQL(CREATE_SETTINGS_TABLE);
+
+    }
+
+    public void resetCredentials()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String DROP_SETTINGS = "DROP TABLE IF EXISTS " + TABLE_SETTINGS;
+        String CREATE_SETTINGS_TABLE = "CREATE TABLE " +
+                TABLE_SETTINGS + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_LOGIN + " TEXT,"
+                + COLUMN_USERNAME + " TEXT,"
+                + COLUMN_PASSWORD + " TEXT,"
+                + COLUMN_INSTANCE + " TEXT)";
+
+        db.execSQL(DROP_SETTINGS);
+        db.execSQL(CREATE_SETTINGS_TABLE);
+        Log.i("ServiceNow","Credentials table dropped and re-created");
+
+    }
+
+    public void setCredentials(String username, String password, String instance)
+    {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        dateFormatter.setLenient(false);
+        Date today = new Date();
+        String s = dateFormatter.format(today);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_PASSWORD, password);
+        values.put(COLUMN_INSTANCE, instance);
+        values.put(COLUMN_LOGIN, s);
+        db.insert(TABLE_SETTINGS, null, values);
+        db.close();
+        Log.i("ServiceNow","Credentials and settings table populated");
+    }
+
+    public Cursor getCredentials()
+    {
+        String query = "SELECT username, password FROM " + TABLE_SETTINGS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // Closing connection
+
+
+
+        return cursor;
     }
 
     @Override
@@ -70,18 +144,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // Closing connection
-        cursor.close();
-        db.close();
 
         return cursor;
     }
 
-    public String getInstanceURL(String name)
+    public String getInstanceURL(long id)
     {
         String _name = null;
 
         // Select All Query
-        String selectQuery = "SELECT address FROM " + TABLE_INSTANCE + " where name = '" + name + "'";
+        String selectQuery = "SELECT address FROM " + TABLE_INSTANCE + " where _id = '" + id + "'";
 
         // Query the database
         SQLiteDatabase db = this.getReadableDatabase();
@@ -95,5 +167,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return _name;
+    }
+
+    public String getCurrentInstance()
+    {
+        String currentInstance = null;
+        String query = "SELECT " + COLUMN_INSTANCE + " FROM " + TABLE_SETTINGS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+
+        cursor.moveToFirst();
+        currentInstance = cursor.getString(0);
+
+        cursor.close();
+        db.close();
+
+        return currentInstance;
     }
 }

@@ -1,32 +1,62 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+
     </style>
 
     <!-- the theme applied to the application or activity -->
-    <style name="ServiceNowActionBarTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    <style name="CustomActionBarTheme"
+        parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar2</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar2</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">#ff0000</item>
+    <style name="MyActionBar2"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/Red</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/Red</item>
+    </style>
+
+    <!-- the theme applied to the application or activity -->
+    <style name="ServiceNowActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar" >
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/Red</item>
+        <item name="background">@color/Red</item>
+
         <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+
         <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="displayOptions">showHome|showTitle</item>
+
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
     </style>
 
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText"
-        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">25sp</item>
+
+
     </style>
 
     <style name="LoginButton">
-        <item name="android:textSize">28dp</item>
+        <item name="android:textSize">28sp</item>
     </style>
+
+
 </resources>

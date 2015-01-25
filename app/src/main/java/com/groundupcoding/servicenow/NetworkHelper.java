@@ -1,7 +1,9 @@
 package com.groundupcoding.servicenow;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
 
@@ -31,6 +33,8 @@ public class NetworkHelper {
     public void GET (String url)
     {
         Log.i(LOG_KEY, "GET: " + url);
+        NetworkHelper_GET nh = new NetworkHelper_GET();
+        nh.execute(url);
     }
 
     public void POST (String url)
@@ -50,10 +54,19 @@ public class NetworkHelper {
                 InputStream inputStream = null;
                 String result = null;
 
+                DataBaseHelper db = new DataBaseHelper(context);
+                Cursor cred = db.getCredentials();
+                cred.moveToFirst();
+
+                String username = cred.getString(0);
+                String password = cred.getString(1);
+
+                Log.i(LOG_KEY, "Username: " + username);
+
                 DefaultHttpClient client = new DefaultHttpClient();
                 HttpGet get = new HttpGet(url[0]);
-                String username = Settings.Read(context, "pref_username");
-                String password = Settings.Read(context, "pref_password");
+                //String username = Settings.Read(context, "pref_username");
+                //String password = Settings.Read(context, "pref_password");
                 String creds = username + ":" + password;
                 get.addHeader("Authorization", "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP));
 
@@ -61,7 +74,7 @@ public class NetworkHelper {
 
                 int code = response.getStatusLine().getStatusCode();
 
-                String jsonContents = response.getHeaders("JSON-Contents").toString();
+                //String jsonContents = response.getHeaders("JSON-Contents").toString();
 
                 if (code != 200) {
                     // Show the user the error

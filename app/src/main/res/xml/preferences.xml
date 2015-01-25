@@ -14,12 +14,15 @@
             android:defaultValue="password"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="API URL">
-        <EditTextPreference
-            android:key="pref_apiBase"
-            android:title="API URL"
-            android:summary="URL of ServiceNow API"
-            android:defaultValue="https://myinstance.service-now.com/api"/>
-        </PreferenceCategory>
+        android:title="Instances"
+        android:summary="ServiceNow Instances">
+        <Preference
+            android:title="ServiceNow Instances">
+            <intent
+                android:targetPackage="com.groundupcoding.servicenow"
+                android:targetClass="com.groundupcoding.servicenow.AddInstanceActivity"
+                />
+            </Preference>
 
+        </PreferenceCategory>
 </PreferenceScreen>
