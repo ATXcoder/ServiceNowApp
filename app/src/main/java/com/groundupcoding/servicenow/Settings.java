@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
+
 
 /**
  * Created by thomas on 9/20/14.
@@ -39,8 +41,10 @@ public class Settings extends PreferenceFragment {
         return settings.getBoolean(key, defaultValue);
     }
 
+    /*
     public class Settings_Activity extends Activity {
 
 
     }
+    */
 }
