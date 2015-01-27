@@ -13,7 +13,7 @@ import org.acra.annotation.ReportsCrashes;
 
 @ReportsCrashes(
         formKey="dGVacG0ydVHnaNHjRjVTUTEtb3FPWGc6MQ",
-        formUri = "http://atxcoder.ddns.net:5984/acra-bugtest/_design/acra-storage/_update/report",
+        formUri = "http://atxcoder.ddns.net:5984/acra-bugtest/_design/acra-storage/_update/report", //TODO: Change to production version before launch
         reportType = org.acra.sender.HttpSender.Type.JSON,
         httpMethod = org.acra.sender.HttpSender.Method.PUT,
         formUriBasicAuthLogin="acra_report",
