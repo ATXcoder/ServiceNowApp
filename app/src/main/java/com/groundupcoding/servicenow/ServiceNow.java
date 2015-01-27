@@ -13,11 +13,11 @@ import org.acra.annotation.ReportsCrashes;
 
 @ReportsCrashes(
         formKey="dGVacG0ydVHnaNHjRjVTUTEtb3FPWGc6MQ",
-        formUri = "http://atxcoder.ddns.net:5984/acra-bugtest/_design/acra-storage/_update/report",
+        formUri = "",
         reportType = org.acra.sender.HttpSender.Type.JSON,
         httpMethod = org.acra.sender.HttpSender.Method.PUT,
-        formUriBasicAuthLogin="acra_report",
-        formUriBasicAuthPassword="password",
+        formUriBasicAuthLogin="",
+        formUriBasicAuthPassword="",
         mode = ReportingInteractionMode.DIALOG,
         resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
         resDialogText = R.string.crash_dialog_text,
