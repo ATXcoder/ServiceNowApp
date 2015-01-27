@@ -1,15 +1,44 @@
 <resources>
-    <!-- the theme applied to the application or activity -->
-    <style name="ServiceNowActionBarTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
+    <!-- ServiceNow Theme -->
+    <style name="ServiceNow_Theme" parent="@style/Theme.AppCompat.Light.DarkActionBar" >
+        <item name="android:actionBarStyle">@style/ServiceNow_ActionBar</item>
+        <item name="actionBarStyle">@style/ServiceNow_ActionBar</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">#ff0000</item>
+    <style name="ServiceNow_ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/Red</item>
+        <item name="background">@color/Red</item>
+
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="displayOptions">showHome|showTitle</item>
+
+        <item name="android:titleTextStyle">@style/ServiceNow_ActionBarTitleText</item>
+        <item name="titleTextStyle">@style/ServiceNow_ActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="ServiceNow_ActionBarTitleText"
+        parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">#ffffff</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:icon">@android:color/transparent</item>
-        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:textSize">25sp</item>
     </style>
+
+    <style name="LoginButton">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="Theme.Dialog" parent="@android:style/Theme.Dialog" />
+
+
 </resources>

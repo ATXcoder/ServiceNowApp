@@ -1,7 +1,10 @@
 package com.groundupcoding.servicenow;
 
+import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
 
@@ -14,6 +17,26 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
+
+@ReportsCrashes(
+        formKey="dGVacG0ydVHnaNHjRjVTUTEtb3FPWGc6MQ",
+        formUri = "http://atxcoder.ddns.net:3700/acra-bugtest/_design/acra-storage/_update/report",
+        reportType = org.acra.sender.HttpSender.Type.JSON,
+        httpMethod = org.acra.sender.HttpSender.Method.PUT,
+        formUriBasicAuthLogin="acra_report",
+        formUriBasicAuthPassword="password",
+        mode = ReportingInteractionMode.DIALOG,
+        resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
+        resDialogText = R.string.crash_dialog_text,
+        resDialogIcon = android.R.drawable.ic_dialog_info, //optional. default is a warning sign
+        resDialogTitle = R.string.crash_dialog_title, // optional. default is your application name
+        resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, // optional. when defined, adds a user text field input with this text resource as a label
+        resDialogOkToast = R.string.crash_dialog_ok_toast // optional. displays a Toast message when the user accepts to send a report.
+)
 /**
  * Created by Thomas on 1/20/2015.
  */
@@ -31,6 +54,8 @@ public class NetworkHelper {
     public void GET (String url)
     {
         Log.i(LOG_KEY, "GET: " + url);
+        NetworkHelper_GET nh = new NetworkHelper_GET();
+        nh.execute(url);
     }
 
     public void POST (String url)
@@ -50,10 +75,19 @@ public class NetworkHelper {
                 InputStream inputStream = null;
                 String result = null;
 
+                DataBaseHelper db = new DataBaseHelper(context);
+                Cursor cred = db.getCredentials();
+                cred.moveToFirst();
+
+                String username = cred.getString(0);
+                String password = cred.getString(1);
+
+                Log.i(LOG_KEY, "Username: " + username);
+
                 DefaultHttpClient client = new DefaultHttpClient();
                 HttpGet get = new HttpGet(url[0]);
-                String username = Settings.Read(context, "pref_username");
-                String password = Settings.Read(context, "pref_password");
+                //String username = Settings.Read(context, "pref_username");
+                //String password = Settings.Read(context, "pref_password");
                 String creds = username + ":" + password;
                 get.addHeader("Authorization", "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP));
 
@@ -61,7 +95,7 @@ public class NetworkHelper {
 
                 int code = response.getStatusLine().getStatusCode();
 
-                String jsonContents = response.getHeaders("JSON-Contents").toString();
+                //String jsonContents = response.getHeaders("JSON-Contents").toString();
 
                 if (code != 200) {
                     // Show the user the error
