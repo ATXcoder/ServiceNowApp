@@ -18,7 +18,7 @@
             android:finishOnTaskLaunch="true" />
         <activity
             android:name=".LoginActivity"
-            android:label="ServiceNow"
+            android:label="ServiceNow - Austin Energy"
             android:theme="@style/ServiceNow_Theme">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
