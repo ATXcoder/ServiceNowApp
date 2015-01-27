@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,6 +26,11 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     String url = null;
     EditText username;
     EditText password;
+    CheckBox storeCreds;
+    Spinner instanceList;
+    Button login;
+
+    SecurePreferences preferences;
 
     private final String LOG_KEY = "ServiceNow";
 
@@ -33,25 +39,29 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Get layout fields, buttons, etc.
         username = (EditText)findViewById(R.id.userName);
         password = (EditText)findViewById(R.id.password);
-        Spinner instanceList = (Spinner)findViewById(R.id.spinner_instance);
-        final Button login = (Button)findViewById(R.id.loginButton);
+        storeCreds = (CheckBox)findViewById(R.id.storeCreds);
+        instanceList = (Spinner)findViewById(R.id.spinner_instance);
+        login = (Button)findViewById(R.id.loginButton);
 
 
-        String userName = Settings.Read(this, "pref_username");
-        String passWord = Settings.Read(this, "pref_password");
+        preferences = new SecurePreferences(getApplicationContext(),"Credentials","TIMSK@2015!",true);
 
-        // Check for username
-        if(!userName.equals("username"))
-        {
-            username.setText(userName);
+        String stored_username;
+        String stored_password;
+        try {
+            // Retreive the stored username and password (if there is one)
+            stored_username = preferences.getString("username");
+            stored_password = preferences.getString("password");
+            username.setText(stored_username);
+            password.setText(stored_password);
         }
-
-        // Check for password
-        if(!passWord.equals("password"))
+        catch(Exception e)
         {
-            password.setText(passWord);
+            // If we can't get the credentials, lets log it
+            Log.e(LOG_KEY, "Issue getting credentials: " + e.getMessage()); //TODO: Maybe send to ACRA
         }
 
         // Check for instance(s)
@@ -88,6 +98,15 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
 
             }
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        storeCreds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Securely store username and password
+                preferences.put("username", username.getText().toString());
+                preferences.put("password", password.getText().toString());
+            }
         });
 
         login.setOnClickListener(new View.OnClickListener() {
