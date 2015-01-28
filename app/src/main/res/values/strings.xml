@@ -10,8 +10,7 @@
     <string name="crash_toast_text">ERROR - Application crash: Gathering error data.</string>
 
     <string name="crash_dialog_title">ServiceNow Error</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the Austin Energy ServiceNow
-    application to stop. Please help fix this by sending the error data to the developer for review,
+    <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help fix this by sending the error data to the developer for review,
     all you have to do is click OK.</string>
     <string name="crash_dialog_comment_prompt">Please add any additional comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you!</string>
