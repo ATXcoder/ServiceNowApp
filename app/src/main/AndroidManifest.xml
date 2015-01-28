@@ -18,7 +18,7 @@
             android:finishOnTaskLaunch="true" />
         <activity
             android:name=".LoginActivity"
-            android:label="ServiceNow - Austin Energy"
+            android:label="ServiceNow"
             android:theme="@style/ServiceNow_Theme">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,7 +30,7 @@
             android:label="@string/title_activity_add_instance" >
         </activity>
         <activity android:name=".IncidentActivity"
-            android:label="ServiceNow - Austin Energy"/>
+            android:label="ServiceNow"/>
 
         <activity android:name=".SettingsActivity"></activity>
 
