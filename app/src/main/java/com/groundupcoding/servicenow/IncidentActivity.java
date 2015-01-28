@@ -35,12 +35,15 @@ public class IncidentActivity extends ActionBarActivity implements AsyncResponse
         setContentView(R.layout.activity_incident);
 
         //Find the listview
-       incidentList = (ListView)findViewById(R.id.incidentList);
+        incidentList = (ListView)findViewById(R.id.incidentList);
+
+        DataBaseHelper db = new DataBaseHelper(this);
+        String instanceURL = db.getCurrentInstance();
 
         // Get the incidents
         NetworkHelper nh = new NetworkHelper(this);
         nh.delegate = this;
-        nh.GET("https://demo002.service-now.com/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=50");
+        nh.GET(instanceURL + "/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=50");
 
 
     }

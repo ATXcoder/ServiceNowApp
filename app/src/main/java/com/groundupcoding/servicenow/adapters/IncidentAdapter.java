@@ -70,7 +70,7 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
             viewholder.settings = PreferenceManager.getDefaultSharedPreferences(getContext());
             viewholder.colorCodeIncidents = viewholder.settings.getBoolean("pref_incident_colors",true);
 
-            Log.i("ServiceNow","Color code tickets is set to " + viewholder.colorCodeIncidents.toString());
+
 
             if(viewholder.colorCodeIncidents)
             {
@@ -86,7 +86,7 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
                 viewholder.low_label = viewholder.settings.getString("pref_low_ticket_label","");
                 viewholder.low_color = viewholder.settings.getString("pref_low_ticket_color","");
 
-                Log.i("ServiceNow","Critical Label - Color: " + viewholder.critical_label + " | " + viewholder.critical_color);
+
                 // Figure out color
 
                 if(incident.getPriority().equals(viewholder.critical_label))
