@@ -94,7 +94,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
 
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
                 url = dataBaseHelper.getInstanceURL(id);
-                Toast.makeText(getApplicationContext(), "URL: " + url, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "URL: " + url, Toast.LENGTH_LONG).show();
 
             }
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -115,7 +115,13 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
                 DataBaseHelper db = new DataBaseHelper(getApplicationContext());
                 db.resetCredentials();
                 db.setCredentials(username.getText().toString(), password.getText().toString(),url);
+
                 login();
+
+                // For now, go straight to incidents
+                Intent intent = new Intent(getApplicationContext(), IncidentActivity.class);
+                startActivity(intent);
+
             }
         });
     }
@@ -155,7 +161,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         NetworkHelper nh = new NetworkHelper(this);
         nh.delegate = this;
 
-        nh.GET(instanceURL + "sys_user.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=6&sysparm_query=user_name=" + username.getText().toString());
+        nh.GET(instanceURL + "/sys_user.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=6&sysparm_query=user_name=" + username.getText().toString());
     }
 
     @Override

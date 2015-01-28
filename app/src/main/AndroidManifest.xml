@@ -29,7 +29,11 @@
             android:name=".AddInstanceActivity"
             android:label="@string/title_activity_add_instance" >
         </activity>
+        <activity android:name=".IncidentActivity"
+            android:label="ServiceNow - Austin Energy"/>
+
         <activity android:name=".SettingsActivity"></activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
