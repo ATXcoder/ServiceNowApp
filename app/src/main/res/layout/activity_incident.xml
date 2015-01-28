@@ -2,20 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50sp">
-        <SearchView
+        <EditText
             android:id="@+id/searchView"
-            android:layout_width="250sp"
-            android:layout_height="match_parent"></SearchView>
+            android:layout_width="0dp"
+            android:layout_weight=".70"
+            android:hint="Incident Number"
+            android:layout_height="match_parent"/>
         <Button
             android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0sp"
+            android:layout_weight=".30"
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/searchView"
             android:text="Search"/>
-        </RelativeLayout>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50sp"
