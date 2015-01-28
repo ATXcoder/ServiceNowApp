@@ -23,6 +23,74 @@
                 android:targetClass="com.groundupcoding.servicenow.AddInstanceActivity"
                 />
             </Preference>
-
-        </PreferenceCategory>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Filters">
+        <PreferenceScreen
+            android:title="Incidents"
+            android:persistent="false">
+            <PreferenceCategory
+                android:title="Incident Color Coding">
+                <CheckBoxPreference
+                    android:key="pref_incident_colors"
+                    android:title="Incident Color Coding"
+                    android:summary="Color code Incidents according to the priority"/>
+                <PreferenceScreen
+                    android:title="Labels and Colors">
+                    <PreferenceScreen
+                        android:title="Critical Priority Incidents">
+                        <EditTextPreference
+                            android:key="pref_critical_ticket_label"
+                            android:title="Critical Priority Incident Label"
+                            android:summary="Define the label for your CRITICAL priority incidents"
+                            android:defaultValue="1 - Critical"/>
+                        <EditTextPreference
+                            android:key="pref_critical_ticket_color"
+                            android:title="Critical Priority Incident Color"
+                            android:summary="Define a custom color (in HEX Format) for CRITICAL priority incidents"
+                            android:defaultValue="#E74C3C"/>
+                    </PreferenceScreen>
+                    <PreferenceScreen
+                    android:title="High Priority Incidents">
+                        <EditTextPreference
+                            android:key="pref_high_ticket_label"
+                            android:title="High Priority Incident Label"
+                            android:summary="Define the label for your HIGH priority incidents"
+                            android:defaultValue="2 - High"/>
+                        <EditTextPreference
+                            android:key="pref_high_ticket_color"
+                            android:title="High Priority Incident Color"
+                            android:summary="Define a custom color (in HEX Format) for HIGH priority incidents"
+                            android:defaultValue="#DB7A39"/>
+                </PreferenceScreen>
+                    <PreferenceScreen
+                        android:title="Medium Priority Incidents">
+                        <EditTextPreference
+                            android:key="pref_medium_ticket_label"
+                            android:title="Medium Priority Incident Label"
+                            android:summary="Define the label for your MODERATE priority incidents"
+                            android:defaultValue="3 - Moderate"/>
+                        <EditTextPreference
+                            android:key="pref_medium_ticket_color"
+                            android:title="Medium Priority Incident Color"
+                            android:summary="Define a custom color (in HEX Format) for MODERATE priority incidents"
+                            android:defaultValue="#C2BC1F"/>
+                    </PreferenceScreen>
+                    <PreferenceScreen
+                        android:title="Low Priority Incidents">
+                        <EditTextPreference
+                            android:key="pref_low_ticket_label"
+                            android:title="Low Priority Incident Label"
+                            android:summary="Define the label for your LOW priority incidents"
+                            android:defaultValue="4 - Low"/>
+                        <EditTextPreference
+                            android:key="pref_low_ticket_color"
+                            android:title="Low Priority Incident Color"
+                            android:summary="Define a custom color (in HEX Format) for LOW priority incidents"
+                            android:defaultValue="#1E7838"/>
+                    </PreferenceScreen>
+                </PreferenceScreen>
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -1,12 +1,14 @@
 package com.groundupcoding.servicenow;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -65,8 +67,18 @@ public class NetworkHelper {
 
     private class NetworkHelper_GET extends AsyncTask<String, JSONArray, String> {
 
+        private ProgressDialog dialog = new ProgressDialog(context);
+
         //JSONArray jsonArray = null;
         String jsonArray = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.dialog.setTitle("ServiceNow App");
+            this.dialog.setMessage("Querying ServiceNow data, please wait...");
+            this.dialog.show();
+        }
 
         @Override
         protected String doInBackground(String...url) {
@@ -136,6 +148,9 @@ public class NetworkHelper {
 
         @Override
         protected void onPostExecute(String jsonArray) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
 
             delegate.taskComplete(jsonArray);
         }
