@@ -14,4 +14,8 @@
     <string name="crash_dialog_ok_toast">Thank you!</string>
     <string name="title_activity_incident_ticket">IncidentTicketActivity</string>
 
+    <!-- Incident Ticket Menu -->
+    <string name="ITM_add_comment">Add Comment</string>
+    <string name="ITM_close_ticket">Close Incident</string>
+
 </resources>
