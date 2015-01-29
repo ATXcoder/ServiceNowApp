@@ -63,6 +63,19 @@
                 <TextView
                     android:background="@color/accent_material_dark"
                     android:padding="3dip"
+                    android:text="Open By" />
+
+                <TextView
+                    android:id="@+id/incidentOpenBy"
+                    android:padding="3dip"
+                    />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="10sp">
+
+                <TextView
+                    android:background="@color/accent_material_dark"
+                    android:padding="3dip"
                     android:text="Severity" />
 
                 <TextView
@@ -173,6 +186,25 @@
 
                 <TextView
                     android:id="@+id/incidentSummary"
+                    android:layout_marginLeft="10sp"
+                    android:layout_span="2"
+                    android:padding="3dip"
+                    />
+            </TableRow>
+            <TableRow android:layout_marginTop="5sp">
+
+                <TextView
+                    android:layout_span="2"
+                    android:background="@color/background_floating_material_dark"
+                    android:padding="3dip"
+                    android:text="Activity"
+                    android:textColor="#fff" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5sp">
+
+                <TextView
+                    android:id="@+id/incidentActivity"
                     android:layout_marginLeft="10sp"
                     android:layout_span="2"
                     android:padding="3dip"

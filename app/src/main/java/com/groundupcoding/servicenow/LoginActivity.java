@@ -166,7 +166,6 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
 
     @Override
     public void taskComplete(String result) {
-        Log.i(LOG_KEY, "API Result returned: " + result);
 
         Gson gson = new Gson();
         User.Users users = gson.fromJson(result, User.Users.class);
@@ -175,9 +174,6 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
 
         User[] userArray = new User[userList.size()];
         userArray = userList.toArray(userArray);
-
-        Log.i(LOG_KEY,"Username = " + userArray[0].getUser_name());
-        Log.i(LOG_KEY,"Full Name = " + userArray[0].getName());
 
     }
 }

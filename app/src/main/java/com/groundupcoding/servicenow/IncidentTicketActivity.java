@@ -23,6 +23,8 @@ public class IncidentTicketActivity extends ActionBarActivity {
     TextView incidentAssignee;
     TextView incidentTitle;
     TextView incidentSummary;
+    TextView incidentOpenBy;
+    TextView incidentActivity;
 
     Incident incident;
 
@@ -47,17 +49,21 @@ public class IncidentTicketActivity extends ActionBarActivity {
         incidentAssignee = (TextView)findViewById(R.id.incidentAssignee);
         incidentTitle = (TextView)findViewById(R.id.incidentTitle);
         incidentSummary = (TextView)findViewById(R.id.incidentSummary);
+        incidentOpenBy = (TextView)findViewById(R.id.incidentOpenBy);
+        incidentActivity = (TextView)findViewById(R.id.incidentActivity);
 
         // Set fields
-        incidentNumber.setText(incident.getNumber());
-        incidentOpenDate.setText(incident.getOpened_at());
-        incidentSeverity.setText(incident.getSeverity());
-        incidentUrgency.setText(incident.getUrgency());
-        incidentPriority.setText(incident.getPriority());
-        incidentCustomer.setText(incident.getOpened_by());
-        incidentAssignee.setText(incident.getAssigned_to());
-        incidentTitle.setText(incident.getShort_description());
-        incidentSummary.setText(incident.getDescription());
+        incidentNumber.setText(incident.getDv_number());
+        incidentOpenDate.setText(incident.getDv_opened_at());
+        incidentSeverity.setText(incident.getDv_severity());
+        incidentUrgency.setText(incident.getDv_urgency());
+        incidentPriority.setText(incident.getDv_priority());
+        incidentCustomer.setText(incident.getDv_caller_id());
+        incidentAssignee.setText(incident.getDv_assigned_to());
+        incidentTitle.setText(incident.getDv_short_description());
+        incidentSummary.setText(incident.getDv_description());
+        incidentOpenBy.setText(incident.getDv_opened_by());
+        incidentActivity.setText(incident.getDv_comments_and_work_notes());
     }
 
 

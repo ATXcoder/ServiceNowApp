@@ -43,7 +43,7 @@ public class IncidentListActivity extends ActionBarActivity implements AsyncResp
         // Get the incidents
         NetworkHelper nh = new NetworkHelper(this);
         nh.delegate = this;
-        nh.GET(instanceURL + "/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=50");
+        nh.GET(instanceURL + "/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=all&sysparm_record_count=50");
 
 
     }
