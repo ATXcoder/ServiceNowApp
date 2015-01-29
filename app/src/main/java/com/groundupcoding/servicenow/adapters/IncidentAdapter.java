@@ -95,17 +95,17 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.critical_color));
                 }
 
-                if(incident.getPriority().equals(viewholder.high_label))
+                if(incident.getDv_priority().equals(viewholder.high_label))
                 {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.high_color));
                 }
 
-                if(incident.getPriority().equals(viewholder.medium_label))
+                if(incident.getDv_priority().equals(viewholder.medium_label))
                 {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.medium_color));
                 }
 
-                if(incident.getPriority().equals(viewholder.low_label))
+                if(incident.getDv_priority().equals(viewholder.low_label))
                 {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
                 }
@@ -153,17 +153,17 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.critical_color));
             }
 
-            if(incident.getPriority().equals(viewholder.high_label))
+            if(incident.getDv_priority().equals(viewholder.high_label))
             {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.high_color));
             }
 
-            if(incident.getPriority().equals(viewholder.medium_label))
+            if(incident.getDv_priority().equals(viewholder.medium_label))
             {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.medium_color));
             }
 
-            if(incident.getPriority().equals(viewholder.low_label))
+            if(incident.getDv_priority().equals(viewholder.low_label))
             {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
             }

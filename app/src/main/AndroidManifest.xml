@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.groundupcoding.servicenow">
+    package="com.groundupcoding.servicenow" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -9,10 +9,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/ServiceNow_Theme">
+        android:theme="@style/ServiceNow_Theme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name="org.acra.CrashReportDialog"
             android:excludeFromRecents="true"
@@ -21,7 +21,7 @@
             android:theme="@style/Theme.Dialog" />
         <activity
             android:name=".LoginActivity"
-            android:label="ServiceNow">
+            android:label="ServiceNow" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".AddInstanceActivity"
-            android:label="@string/title_activity_add_instance"></activity>
+            android:label="@string/title_activity_add_instance" />
         <activity
             android:name=".IncidentListActivity"
             android:label="ServiceNow" />
@@ -38,10 +38,14 @@
         <activity
             android:name=".IncidentTicketActivity"
             android:label="@string/title_activity_incident_ticket"
-            android:parentActivityName=".IncidentListActivity">
+            android:parentActivityName=".IncidentListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.groundupcoding.servicenow.IncidentListActivity" />
+        </activity>
+        <activity
+            android:name=".ContactDetailsActivity"
+            android:label="@string/title_activity_contact_details" >
         </activity>
     </application>
 

@@ -21,5 +21,6 @@
     <!-- Incident Ticket Menu -->
     <string name="ITM_add_comment">Add Comment</string>
     <string name="ITM_close_ticket">Close Incident</string>
+    <string name="title_activity_contact_details">ContactDetailsActivity</string>
 
 </resources>
