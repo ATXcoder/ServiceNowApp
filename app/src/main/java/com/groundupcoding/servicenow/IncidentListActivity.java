@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Thomas on 1/27/2015.
  */
-public class IncidentActivity extends ActionBarActivity implements AsyncResponse {
+public class IncidentListActivity extends ActionBarActivity implements AsyncResponse {
     ListView incidentList;
 
 

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.groundupcoding.servicenow.models.User;
 import java.util.List;
@@ -119,7 +119,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
                 login();
 
                 // For now, go straight to incidents
-                Intent intent = new Intent(getApplicationContext(), IncidentActivity.class);
+                Intent intent = new Intent(getApplicationContext(), IncidentListActivity.class);
                 startActivity(intent);
 
             }
