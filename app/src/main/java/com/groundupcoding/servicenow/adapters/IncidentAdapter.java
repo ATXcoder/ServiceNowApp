@@ -63,6 +63,7 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
             viewholder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.list_item_incident, parent, false);
+
             viewholder.incidentNumber = (TextView)convertView.findViewById(R.id.incidentNumber);
             viewholder.incidentDesc = (TextView)convertView.findViewById(R.id.incidentDesc);
             viewholder.ticket = (RelativeLayout)convertView.findViewById(R.id.incidentLayout);
@@ -89,7 +90,7 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
 
                 // Figure out color
 
-                if(incident.getPriority().equals(viewholder.critical_label))
+                if(incident.getDv_priority().equals(viewholder.critical_label))
                 {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.critical_color));
                 }
@@ -122,8 +123,8 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
             viewholder = (ViewHolder) convertView.getTag();
         }
 
-        viewholder.incidentNumber.setText(incident.getNumber());
-        viewholder.incidentDesc.setText(incident.getShort_description());
+        viewholder.incidentNumber.setText(incident.getDv_number());
+        viewholder.incidentDesc.setText(incident.getDv_short_description());
 
         viewholder.settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         viewholder.colorCodeIncidents = viewholder.settings.getBoolean("pref_incident_colors", true);
@@ -147,7 +148,7 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
             viewholder.low_color = viewholder.settings.getString("pref_low_ticket_color","");
 
             // Figure out color
-            if(incident.getPriority().equals(viewholder.critical_label))
+            if(incident.getDv_priority().equals(viewholder.critical_label))
             {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.critical_color));
             }
