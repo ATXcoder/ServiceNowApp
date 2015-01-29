@@ -4,15 +4,19 @@
     <string name="app_name">ServiceNow</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_add_instance">AddInstanceActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_add_instance">Add Instance</string>
+
+    <!-- ACRA Dialog -->
     <string name="crash_toast_text">ERROR - Application crash: Gathering error data.</string>
     <string name="crash_dialog_title">ServiceNow Error</string>
     <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help fix this by sending the error data to the developer for review,
     all you have to do is click OK.</string>
     <string name="crash_dialog_comment_prompt">Please add any additional comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you!</string>
-    <string name="title_activity_incident_ticket">IncidentTicketActivity</string>
+
+    <!-- Incident Ticket Details -->
+    <string name="title_activity_incident_ticket">Incident Details</string>
 
     <!-- Incident Ticket Menu -->
     <string name="ITM_add_comment">Add Comment</string>
