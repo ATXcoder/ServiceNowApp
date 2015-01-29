@@ -1,12 +1,155 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="#ffffff"
     tools:context="com.groundupcoding.servicenow.IncidentTicketActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+        <TableRow
+            android:background="@color/Orange"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:text="Incident Details"
+                android:layout_span="2"
+                android:layout_height="25sp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Incident Number"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentNumber"
+                android:text="INC000000"
+                android:padding="3dip"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Open Date"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentOpenDate"
+                android:padding="3dip"
+                android:text="01/01/2015"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Severity"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentSeverity"
+                android:padding="3dip"
+                android:text="4 - Low"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Urgency"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentUrgency"
+                android:padding="3dip"
+                android:text="4 - Low"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Priority"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentPriority"
+                android:padding="3dip"
+                android:text="4 - Low"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Customer"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentCustomer"
+                android:padding="3dip"
+                android:text="Joe Customer"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Assigned To"
+                android:padding="3dip"
+                android:background="@color/accent_material_dark"/>
+            <TextView
+                android:id="@+id/incidentAssignee"
+                android:padding="3dip"
+                android:text="John Tech"/>
+        </TableRow>
 
-</RelativeLayout>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1">
+        <TableRow
+            android:layout_marginTop="10sp"
+            android:background="@color/Orange">
+            <TextView
+                android:layout_span="2"
+                android:layout_height="25sp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:text="Incident Information"
+               />
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5sp">
+            <TextView
+                android:text="Description"
+                android:layout_span="1"
+                android:padding="3dip"
+                android:textColor="#fff"
+                android:background="@color/background_floating_material_dark"/>
+            <TextView
+                android:id="@+id/incidentTitle"
+                android:padding="3dip"
+                android:text="Incident Title"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="10sp">
+            <TextView
+                android:text="Summary"
+                android:layout_span="2"
+                android:padding="3dip"
+                android:textColor="#fff"
+                android:background="@color/background_floating_material_dark"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5sp">
+            <TextView
+                android:id="@+id/incidentSummary"
+                android:layout_span="2"
+                android:padding="3dip"
+                android:layout_marginLeft="10sp"
+                android:text="Summary of incident"/>
+        </TableRow>
+        </TableLayout>
+</LinearLayout>

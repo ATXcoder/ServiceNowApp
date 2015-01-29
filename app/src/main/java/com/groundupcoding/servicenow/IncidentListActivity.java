@@ -55,7 +55,7 @@ public class IncidentListActivity extends ActionBarActivity implements AsyncResp
     public void taskComplete(String result) {
         Log.i("ServiceNow", "API Result: " + result);
 
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
 
         Incident.Incidents incidents = gson.fromJson(result, Incident.Incidents.class);
 
@@ -73,7 +73,10 @@ public class IncidentListActivity extends ActionBarActivity implements AsyncResp
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object obj = incidentList.getItemAtPosition(position);
                 Incident incidentObj = (Incident)obj;
-                Toast.makeText(getApplicationContext(), incidentObj.getNumber(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(IncidentListActivity.this, IncidentTicketActivity.class);
+                intent.putExtra("Incident", gson.toJson(incidentObj));
+                startActivity(intent);
             }
         });
 

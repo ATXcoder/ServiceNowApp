@@ -18,6 +18,7 @@ public class Incident {
     private String comments_and_work_notes;
     private String opened_at;
     private String short_description;
+    private String description;
     private String assigned_to;
     private String contact_type;
     private String opened_by;
@@ -34,6 +35,14 @@ public class Incident {
         public void setRecords(List<Incident> records) {
             this.records = records;
         }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getNumber() {
