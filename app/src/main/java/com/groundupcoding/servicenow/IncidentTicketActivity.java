@@ -1,9 +1,11 @@
 package com.groundupcoding.servicenow;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ public class IncidentTicketActivity extends ActionBarActivity {
     TextView incidentSummary;
     TextView incidentOpenBy;
     TextView incidentActivity;
+
+    Intent intent;
 
     Incident incident;
 
@@ -64,6 +68,18 @@ public class IncidentTicketActivity extends ActionBarActivity {
         incidentSummary.setText(incident.getDv_description());
         incidentOpenBy.setText(incident.getDv_opened_by());
         incidentActivity.setText(incident.getDv_comments_and_work_notes());
+
+        // Define clickable fields
+
+        incidentCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start activity to get customer's details
+                intent = new Intent(IncidentTicketActivity.this, ContactDetailsActivity.class);
+                intent.putExtra("ID",incident.getCaller_id());
+                startActivity(intent);
+            }
+        });
     }
 
 
