@@ -1,12 +1,208 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.groundupcoding.servicenow.ContactDetailsActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/contactImage"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/login_box"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/contactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/contactImage"
+                android:layout_toRightOf="@id/contactImage"
+                android:text="Employee, Joe"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/contactTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contactName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/contactImage"
+                android:layout_toRightOf="@id/contactImage"
+                android:text="unlisted"
+                android:textSize="18sp" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/banner"
+            android:paddingLeft="5dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1">
+
+                <TableRow
+                    android:layout_marginTop="10sp"
+                    android:background="@color/Orange">
+
+                    <TextView
+                        android:layout_height="25sp"
+                        android:layout_gravity="left"
+                        android:layout_span="2"
+                        android:paddingLeft="5sp"
+                        android:text="Contact Details"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="10sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Building" />
+
+                    <TextView
+                        android:id="@+id/contactBuilding"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Address" />
+
+                    <TextView
+                        android:id="@+id/contactAddress"
+                        android:layout_width="120dp"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Phone" />
+
+                    <TextView
+                        android:id="@+id/contactPhone"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Mobile" />
+
+                    <TextView
+                        android:id="@+id/contactMobile"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="E-Mail" />
+
+                    <TextView
+                        android:id="@+id/contactEmail"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="10sp"
+                    android:background="@color/Orange">
+
+                    <TextView
+                        android:layout_height="25sp"
+                        android:layout_gravity="left"
+                        android:layout_span="2"
+                        android:paddingLeft="5sp"
+                        android:text="Company Details"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Company" />
+
+                    <TextView
+                        android:id="@+id/contactCompany"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Manager" />
+
+                    <TextView
+                        android:id="@+id/contactManager"
+                        android:padding="3dip"
+                        android:text="unlisted"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="5sp">
+
+                    <TextView
+                        android:background="@color/accent_material_dark"
+                        android:paddingLeft="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Source" />
+
+                    <TextView
+                        android:id="@+id/contactSource"
+                        android:layout_width="120dp"
+                        android:padding="3dip"
+                        android:text="unlisted" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
