@@ -30,6 +30,8 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     Spinner instanceList;
     Button login;
 
+    private  SimpleCursorAdapter sca = null;
+
     SecurePreferences preferences;
 
     private final String LOG_KEY = "ServiceNow";
@@ -64,27 +66,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
             Log.e(LOG_KEY, "Issue getting credentials: " + e.getMessage()); //TODO: Maybe send to ACRA
         }
 
-        // Check for instance(s)
-        DataBaseHelper db = new DataBaseHelper(this);
-        Cursor cursor = db.getInstances();
-
-        if(cursor.getCount()>0)
-        {
-            // make an adapter from the cursor
-            String[] from = new String[] {"name"};
-            int[] to = new int[] {android.R.id.text1};
-            SimpleCursorAdapter sca = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor, from, to);
-            // set layout for activated adapter
-            sca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            instanceList.setAdapter(sca);
-
-        }
-        else
-        {
-
-        }
-
+        getInstances();
 
 
         // set spinner listener to display the selected item id
@@ -126,6 +108,36 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         });
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        getInstances();
+    }
+
+    private void getInstances()
+    {
+        // Check for instance(s)
+        DataBaseHelper db = new DataBaseHelper(this);
+        Cursor cursor = db.getInstances();
+
+        if(cursor.getCount()>0)
+        {
+            // make an adapter from the cursor
+            String[] from = new String[] {"name"};
+            int[] to = new int[] {android.R.id.text1};
+            sca = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor, from, to);
+            // set layout for activated adapter
+            sca.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            instanceList.setAdapter(sca);
+
+        }
+        else
+        {
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

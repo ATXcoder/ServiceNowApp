@@ -26,6 +26,10 @@
     <string name="title_activity_list_instances">ServiceNow Instances</string>
     <string name="menu_addInstance">Add ServiceNow Instance</string>
 
+    <!-- Instance Context Menu -->
+    <string name="context_edit_instance">Edit</string>
+    <string name="context_delete_instance">Delete</string>
+
     <!-- Adding Instance -->
     <string name="title_AddInstanceActivity">Add ServiceNow Instance</string>
 

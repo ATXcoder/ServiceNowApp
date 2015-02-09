@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.groundupcoding.servicenow.models.Instance;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,14 +37,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_INSTANCE = "currentInstance";
     public static final String COLUMN_PASSWORD = "password";
 
+    private Context context;
+    private final String LOG_KEY = "ServiceNow";
+
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        this.context = context;
     }
 
     public DataBaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
 
     }
 
@@ -69,6 +76,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /*
+     * Credentials
+     */
     public void resetCredentials()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -83,7 +93,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(DROP_SETTINGS);
         db.execSQL(CREATE_SETTINGS_TABLE);
-        Log.i("ServiceNow","Credentials table dropped and re-created");
+        Log.i("ServiceNow", "Credentials table dropped and re-created");
 
     }
 
@@ -121,6 +131,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /*
+     * INSTANCES
+     */
     public void addInstance(Instance instance)
     {
         ContentValues values = new ContentValues();
@@ -130,6 +143,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_INSTANCE, null, values);
         db.close();
+    }
+
+    public void removeInstance(long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String name = null;
+
+        // Let get the instance name
+        String nameQuery = "SELECT " + COLUMN_NAME +
+                " FROM " + TABLE_INSTANCE +
+                " WHERE " + COLUMN_ID +
+                " = " + id;
+        Cursor cursor = db.rawQuery(nameQuery, null);
+        cursor.moveToFirst();
+        name = cursor.getString(0);
+
+        // Delete entry
+        String clause = COLUMN_ID + " = " + String.valueOf(id);
+        db.delete(TABLE_INSTANCE,clause,null);
+
+        // Close connection
+        db.close();
+        Log.i(LOG_KEY, "Instance '"+ name + "' has been deleted");
+        Toast.makeText(context, "Instance '" + name + "' has been removed", Toast.LENGTH_SHORT).show();
     }
 
     /**
