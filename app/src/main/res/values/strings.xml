@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_add_instance">Add Instance</string>
 
     <!-- ACRA Dialog -->
     <string name="crash_toast_text">ERROR - Application crash: Gathering error data.</string>
@@ -21,7 +20,16 @@
     <!-- Incident Ticket Menu -->
     <string name="ITM_add_comment">Add Comment</string>
     <string name="ITM_close_ticket">Close Incident</string>
-    <string name="title_activity_contact_details">ContactDetailsActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Instance Listings -->
+    <string name="title_activity_list_instances">ServiceNow Instances</string>
+    <string name="menu_addInstance">Add ServiceNow Instance</string>
+
+    <!-- Adding Instance -->
+    <string name="title_AddInstanceActivity">Add ServiceNow Instance</string>
+
+    <!-- Contact Details -->
+    <string name="title_activity_contact_details">Contact Details</string>
 
 </resources>

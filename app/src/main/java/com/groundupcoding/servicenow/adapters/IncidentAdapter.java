@@ -109,6 +109,10 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
                 {
                     viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
                 }
+                else
+                {
+                    viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
+                }
             }
             else
             {
@@ -164,6 +168,10 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
             }
 
             if(incident.getDv_priority().equals(viewholder.low_label))
+            {
+                viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
+            }
+            else
             {
                 viewholder.ticket.setBackgroundColor(Color.parseColor(viewholder.low_color));
             }

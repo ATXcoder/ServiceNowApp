@@ -9,8 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.groundupcoding.servicenow.models.Instance;
+
+import org.acra.ACRA;
 
 
 public class AddInstanceActivity extends ActionBarActivity {
@@ -28,11 +31,18 @@ public class AddInstanceActivity extends ActionBarActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Instance instance = new Instance();
-                instance.setName(name.getText().toString());
-                instance.setAddress(address.getText().toString());
-                DataBaseHelper db = new DataBaseHelper(getApplicationContext());
-                db.addInstance(instance);
+                try{
+                    Instance instance = new Instance();
+                    instance.setName(name.getText().toString());
+                    instance.setAddress(address.getText().toString());
+                    DataBaseHelper db = new DataBaseHelper(getApplicationContext());
+                    db.addInstance(instance);
+                    Toast.makeText(getApplicationContext(),"Instance added",Toast.LENGTH_LONG).show();
+                }catch(Exception e)
+                {
+                    Toast.makeText(getApplicationContext(),"Error adding instance",Toast.LENGTH_SHORT).show();
+                    ACRA.getErrorReporter().handleException(e);
+                }
             }
         });
     }
