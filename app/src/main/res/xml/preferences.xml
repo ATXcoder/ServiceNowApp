@@ -20,7 +20,7 @@
             android:title="ServiceNow Instances">
             <intent
                 android:targetPackage="com.groundupcoding.servicenow"
-                android:targetClass="com.groundupcoding.servicenow.AddInstanceActivity"
+                android:targetClass="com.groundupcoding.servicenow.ListInstancesActivity"
                 />
             </Preference>
     </PreferenceCategory>

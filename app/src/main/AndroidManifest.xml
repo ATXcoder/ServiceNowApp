@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name=".AddInstanceActivity"
-            android:label="@string/title_activity_add_instance" />
+            android:label="@string/title_AddInstanceActivity"
+            android:parentActivityName=".ListInstancesActivity"/>
         <activity
             android:name=".IncidentListActivity"
             android:label="ServiceNow" />
@@ -46,6 +47,11 @@
         <activity
             android:name=".ContactDetailsActivity"
             android:label="@string/title_activity_contact_details" >
+        </activity>
+        <activity
+            android:name=".ListInstancesActivity"
+            android:label="@string/title_activity_list_instances"
+             >
         </activity>
     </application>
 
