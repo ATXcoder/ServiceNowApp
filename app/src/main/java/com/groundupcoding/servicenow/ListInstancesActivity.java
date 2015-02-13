@@ -80,14 +80,18 @@ public class ListInstancesActivity extends ActionBarActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
         switch(item.getItemId()) {
             case R.id.edit:
-                // edit stuff here
+                long id = ((AdapterView.AdapterContextMenuInfo)info).id;
+                Intent intent = new Intent(getApplicationContext(), EditInstanceActivity.class);
+                intent.putExtra("id",String.valueOf(id));
+                startActivity(intent);
                 return true;
             case R.id.delete:
-                long id = ((AdapterView.AdapterContextMenuInfo)info).id;
+                 long id2 = ((AdapterView.AdapterContextMenuInfo)info).id;
                 DataBaseHelper db = new DataBaseHelper(getApplicationContext());
-                db.removeInstance(id);
+                db.removeInstance(id2);
                 return true;
             default:
                 return super.onContextItemSelected(item);

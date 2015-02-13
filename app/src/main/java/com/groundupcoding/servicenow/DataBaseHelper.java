@@ -187,6 +187,34 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public void updateInstance(String name, String url, long id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_ADDRESS, url);
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.update(TABLE_INSTANCE, values, COLUMN_ID + " = " + String.valueOf(id), null);
+
+        db.close();
+
+        Toast.makeText(context, "Instance updated", Toast.LENGTH_SHORT).show();
+    }
+
+    public Cursor getInstance(long id)
+    {
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_INSTANCE + " where _id = '" + id + "'";
+
+        // Query the database
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // Closing connection
+
+        return cursor;
+    }
+
     public String getInstanceURL(long id)
     {
         String _name = null;

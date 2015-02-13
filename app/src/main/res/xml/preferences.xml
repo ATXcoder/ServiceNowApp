@@ -26,6 +26,11 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Filters">
+        <EditTextPreference
+            android:key="pref_maxTickets"
+            android:title="Tickets Returned"
+            android:summary="The maximum number of tickets to be returned"
+            android:defaultValue="50"/>
         <PreferenceScreen
             android:title="Incidents"
             android:persistent="false">
