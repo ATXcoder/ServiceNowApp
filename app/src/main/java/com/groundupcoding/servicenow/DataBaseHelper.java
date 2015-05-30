@@ -69,6 +69,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Drops the credentials database basically
+     * forgetting the credentials
+     */
     public void resetCredentials()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -87,6 +91,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Stores the username, password, and instance.
+     * The table that hold these is dropped and
+     * recreated each time the app is opened.
+     * @param username
+     * @param password
+     * @param instance
+     */
     public void setCredentials(String username, String password, String instance)
     {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -105,6 +117,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.i("ServiceNow","Credentials and settings table populated");
     }
 
+    /**
+     * Gets the current credentials
+     * @return
+     */
     public Cursor getCredentials()
     {
         String query = "SELECT username, password FROM " + TABLE_SETTINGS;
@@ -121,6 +137,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Add a instance
+     * @param instance
+     */
     public void addInstance(Instance instance)
     {
         ContentValues values = new ContentValues();
@@ -150,6 +170,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    /**
+     * Gets the instance URL of the supplied
+     * instance ID
+     * @param id
+     * @return
+     */
     public String getInstanceURL(long id)
     {
         String _name = null;

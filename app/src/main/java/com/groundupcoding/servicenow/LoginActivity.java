@@ -1,5 +1,8 @@
 package com.groundupcoding.servicenow;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.groundupcoding.servicenow.models.User;
@@ -30,6 +34,9 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     Spinner instanceList;
     Button login;
 
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
+
     SecurePreferences preferences;
 
     private final String LOG_KEY = "ServiceNow";
@@ -38,6 +45,16 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Intent alarmIntent = new Intent(this, com.groundupcoding.servicenow.TicketServiceReceiver.class);
+        alarmIntent.putExtra("Request","Get ticket count");
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        int interval = 30000;
+
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 
         // Get layout fields, buttons, etc.
         username = (EditText)findViewById(R.id.userName);
@@ -92,10 +109,12 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         instanceList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
 
+                //New instance of DatabaseHelper
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+                //Get the url of the selected instance
                 url = dataBaseHelper.getInstanceURL(id);
-                //Toast.makeText(getApplicationContext(), "URL: " + url, Toast.LENGTH_LONG).show();
-
+                //Set the 'Last Used Instance' preference - needed for IntentService (ENH-20)
+                preferences.put("lastInstance",url);
             }
             public void onNothingSelected(AdapterView<?> parent) {}
         });
@@ -112,8 +131,11 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Create new database instance
                 DataBaseHelper db = new DataBaseHelper(getApplicationContext());
+                //Reset the credentials table (drop and recreate it)
                 db.resetCredentials();
+                //INSERT the credetials in the 'username' and 'password' box
                 db.setCredentials(username.getText().toString(), password.getText().toString(),url);
 
                 login();
