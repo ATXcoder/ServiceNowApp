@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -103,16 +104,13 @@ public class NetworkHelper {
 
                 DefaultHttpClient client = new DefaultHttpClient();
                 HttpGet get = new HttpGet(url[0]);
-                //String username = Settings.Read(context, "pref_username");
-                //String password = Settings.Read(context, "pref_password");
+
                 String creds = username + ":" + password;
                 get.addHeader("Authorization", "Basic " + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP));
 
                 response = client.execute(get);
 
                 int code = response.getStatusLine().getStatusCode();
-
-                //String jsonContents = response.getHeaders("JSON-Contents").toString();
 
                 if (code != 200) {
                     // Show the user the error
