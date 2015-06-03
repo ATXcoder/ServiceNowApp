@@ -61,6 +61,9 @@
             android:label="@string/title_activity_list_instances" >
         </activity>
 
+        <activity android:name=".EditInstanceActivity"
+            android:label="Edit Instance"></activity>
+
         <receiver
             android:name=".TicketServiceReceiver"
             android:enabled="true"
