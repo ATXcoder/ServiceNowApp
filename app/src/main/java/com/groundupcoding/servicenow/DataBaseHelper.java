@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.groundupcoding.servicenow.models.Instance;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,14 +40,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_SYSID = "sys_id";
 
+    Context ctx;
+
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        ctx = context;
     }
 
     public DataBaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        ctx = context;
 
     }
 
@@ -231,5 +237,57 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return currentInstance;
+    }
+
+    public void removeInstance(long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String name = null;
+
+        // Let get the instance name
+        String nameQuery = "SELECT " + COLUMN_NAME +
+                " FROM " + TABLE_INSTANCE +
+                " WHERE " + COLUMN_ID +
+                " = " + id;
+        Cursor cursor = db.rawQuery(nameQuery, null);
+        cursor.moveToFirst();
+        name = cursor.getString(0);
+
+        // Delete entry
+        String clause = COLUMN_ID + " = " + String.valueOf(id);
+        db.delete(TABLE_INSTANCE,clause,null);
+
+        // Close connection
+        db.close();
+        Log.i(LOG_TAG, "Instance '"+ name + "' has been deleted");
+        Toast.makeText(ctx, "Instance '" + name + "' has been removed", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateInstance(String name, String url, long id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_ADDRESS, url);
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.update(TABLE_INSTANCE, values, COLUMN_ID + " = " + String.valueOf(id), null);
+
+        db.close();
+
+        Toast.makeText(ctx, "Instance updated", Toast.LENGTH_SHORT).show();
+    }
+
+    public Cursor getInstance(long id)
+    {
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_INSTANCE + " where _id = '" + id + "'";
+
+        // Query the database
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // Closing connection
+
+        return cursor;
     }
 }
