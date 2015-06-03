@@ -10,9 +10,18 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/ServiceNow_Theme" >
+
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
+
+        <activity android:name=".MyTicketsActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="org.acra.CrashReportDialog"
             android:excludeFromRecents="true"
@@ -24,14 +33,13 @@
             android:label="ServiceNow" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AddInstanceActivity"
             android:label="@string/title_AddInstanceActivity"
-            android:parentActivityName=".ListInstancesActivity"/>
+            android:parentActivityName=".ListInstancesActivity" />
         <activity
             android:name=".IncidentListActivity"
             android:label="ServiceNow" />
@@ -50,11 +58,14 @@
         </activity>
         <activity
             android:name=".ListInstancesActivity"
-            android:label="@string/title_activity_list_instances"
-             >
+            android:label="@string/title_activity_list_instances" >
         </activity>
-        <activity android:name=".EditInstanceActivity"
-            android:label="Edit Instance"></activity>
+
+        <receiver
+            android:name=".TicketServiceReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 
 </manifest>
