@@ -20,7 +20,9 @@ import org.acra.annotation.ReportsCrashes;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final String LOG_TAG = "ServiceNow";
+
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "ServiceNowDB.db";
     public static final String TABLE_INSTANCE = "instance";
     public static final String TABLE_SETTINGS = "settings";
@@ -34,6 +36,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LOGIN = "loginTime";
     public static final String COLUMN_INSTANCE = "currentInstance";
     public static final String COLUMN_PASSWORD = "password";
+    public static final String COLUMN_SYSID = "sys_id";
 
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -61,7 +64,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_LOGIN + " TEXT,"
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT,"
-                + COLUMN_INSTANCE + " TEXT)";
+                + COLUMN_INSTANCE + " TEXT,"
+                + COLUMN_SYSID + " TEXT)";
 
         db.execSQL(CREATE_INSTANCE_TABLE);
         db.execSQL(DROP_SETTINGS);
@@ -83,7 +87,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_LOGIN + " TEXT,"
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT,"
-                + COLUMN_INSTANCE + " TEXT)";
+                + COLUMN_INSTANCE + " TEXT,"
+                + COLUMN_SYSID + " TEXT)";
 
         db.execSQL(DROP_SETTINGS);
         db.execSQL(CREATE_SETTINGS_TABLE);
@@ -99,7 +104,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * @param password
      * @param instance
      */
-    public void setCredentials(String username, String password, String instance)
+    public void setCredentials(String username, String password, String instance, String sysID)
     {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         dateFormatter.setLenient(false);
@@ -111,6 +116,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_PASSWORD, password);
         values.put(COLUMN_INSTANCE, instance);
+        values.put(COLUMN_SYSID, sysID);
         values.put(COLUMN_LOGIN, s);
         db.insert(TABLE_SETTINGS, null, values);
         db.close();
@@ -123,10 +129,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getCredentials()
     {
-        String query = "SELECT username, password FROM " + TABLE_SETTINGS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = null;
+        try
+        {
+            Log.i(LOG_TAG, "Credentials requested.");
+            String query = "SELECT username, password, sys_id FROM " + TABLE_SETTINGS;
+            Log.d(LOG_TAG, "DB Query: " + query);
+            SQLiteDatabase db = this.getReadableDatabase();
+            cursor = db.rawQuery(query, null);
 
+        }
+        catch(Exception ex)
+        {
+            Log.e(LOG_TAG, "Credential Cursor error: " + ex.toString());
+        }
         return cursor;
     }
 

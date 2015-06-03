@@ -21,6 +21,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.groundupcoding.servicenow.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.Dictionary;
 import java.util.List;
 
 
@@ -33,6 +41,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     CheckBox storeCreds;
     Spinner instanceList;
     Button login;
+    DataBaseHelper db;
 
     private PendingIntent pendingIntent;
     private AlarmManager manager;
@@ -46,15 +55,6 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Intent alarmIntent = new Intent(this, com.groundupcoding.servicenow.TicketServiceReceiver.class);
-        alarmIntent.putExtra("Request","Get ticket count");
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        int interval = 30000;
-
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 
         // Get layout fields, buttons, etc.
         username = (EditText)findViewById(R.id.userName);
@@ -82,7 +82,7 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
         }
 
         // Check for instance(s)
-        DataBaseHelper db = new DataBaseHelper(this);
+        db = new DataBaseHelper(this);
         Cursor cursor = db.getInstances();
 
         if(cursor.getCount()>0)
@@ -132,12 +132,9 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
             @Override
             public void onClick(View v) {
                 //Create new database instance
-                DataBaseHelper db = new DataBaseHelper(getApplicationContext());
-                //Reset the credentials table (drop and recreate it)
-                db.resetCredentials();
-                //INSERT the credetials in the 'username' and 'password' box
-                db.setCredentials(username.getText().toString(), password.getText().toString(),url);
 
+
+                // Login
                 login();
 
                 // For now, go straight to incidents
@@ -176,18 +173,69 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
     public void login()
     {
         // Get instance URL
-        DataBaseHelper db = new DataBaseHelper(this);
-        String instanceURL = db.getCurrentInstance();
+        //db = new DataBaseHelper(this);
+        String instanceURL = url;
+
+        db = new DataBaseHelper(getApplicationContext());
+        //Reset the credentials table (drop and recreate it)
+        db.resetCredentials();
+        //INSERT the credetials in the 'username' and 'password' box
+        db.setCredentials(username.getText().toString(), password.getText().toString(),url,null);
 
         // Access Network Helper
         NetworkHelper nh = new NetworkHelper(this);
         nh.delegate = this;
 
-        nh.GET(instanceURL + "/sys_user.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=6&sysparm_query=user_name=" + username.getText().toString());
+        Log.i(LOG_KEY, "Getting user information");
+        nh.GET(instanceURL + "/sys_user.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_query=user_name=" + username.getText().toString());
+    }
+
+    public Dictionary<String, String> GetUserID()
+    {
+        DataBaseHelper db = new DataBaseHelper(this);
+        Cursor cursor = db.getCredentials();
+        cursor.moveToFirst();
+        int usernameCol = cursor.getColumnIndex("username");
+        int passwordCol = cursor.getColumnIndex("password");
+        String userName = cursor.getString(usernameCol);
+        String password = cursor.getString(passwordCol);
+        final Dictionary<String, String> creds = null;
+        creds.put("username",userName);
+        creds.put("password",password);
+
+        // Get our base URL
+        String instanceURL = db.getCurrentInstance();
+        creds.put("instance",instanceURL);
+
+        // Get our users ID
+        String userURL = instanceURL + "/sys_user.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=1&sysparm_query=user_name=" + userName;
+
+        // Set the current instance as the baseURL
+        ServiceNowRestClient.setBaseURL(db.getCurrentInstance());
+
+        ServiceNowRestClient.get(userURL,null,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // If the response is JSONObject instead of expected JSONArray
+                String jsonobject = response.toString();
+                Log.i(LOG_KEY, "JSON Object: " + jsonobject);
+                try {
+                    JSONObject object = new JSONObject(jsonobject);
+                    creds.put("userID",object.getString("sys_id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        },userName,password);
+        return creds;
     }
 
     @Override
     public void taskComplete(String result) {
+
+        Log.d(LOG_KEY, result);
 
         Gson gson = new Gson();
         User.Users users = gson.fromJson(result, User.Users.class);
@@ -196,6 +244,37 @@ public class LoginActivity extends ActionBarActivity implements AsyncResponse {
 
         User[] userArray = new User[userList.size()];
         userArray = userList.toArray(userArray);
+
+        User user = (User)userArray[0];
+
+        db = new DataBaseHelper(getApplicationContext());
+        //Reset the credentials table (drop and recreate it)
+        db.resetCredentials();
+        //INSERT the credetials in the 'username' and 'password' box
+        db.setCredentials(username.getText().toString(), password.getText().toString(),url,user.getSys_id());
+
+        // Set ticket activity
+        Intent alarmIntent = new Intent(getApplicationContext(),
+                com.groundupcoding.servicenow.TicketServiceReceiver.class);
+        String s = URLEncoder.encode("^");
+        String apiurl = "/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=all&sysparm_query=active=true" + s + "assigned_to=" + user.getSys_id();
+
+        alarmIntent.putExtra("Request",apiurl);
+        alarmIntent.putExtra("Username",username.getText().toString());
+        alarmIntent.putExtra("Password", password.getText().toString());
+        alarmIntent.putExtra("BaseURL", url);
+
+        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
+                alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        // 1 hour (3600000 ms)
+        int interval = 3600000;
+
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+
+
 
     }
 }

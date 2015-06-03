@@ -87,8 +87,13 @@ public class NetworkHelper {
                 InputStream inputStream = null;
                 String result = null;
 
+                Log.i(LOG_KEY, "Requesting credentials");
                 DataBaseHelper db = new DataBaseHelper(context);
                 Cursor cred = db.getCredentials();
+                if(cred.getCount() == 0)
+                {
+                    Log.e(LOG_KEY,"Cursor is empty");
+                }
                 cred.moveToFirst();
 
                 String username = cred.getString(0);

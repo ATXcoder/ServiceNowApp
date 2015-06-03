@@ -1,19 +1,38 @@
 package com.groundupcoding.servicenow;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.groundupcoding.servicenow.models.Contact;
+import com.groundupcoding.servicenow.models.Incident;
+import com.groundupcoding.servicenow.models.Record;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.List;
 
 public class TicketServiceReceiver extends WakefulBroadcastReceiver {
 
@@ -24,25 +43,21 @@ public class TicketServiceReceiver extends WakefulBroadcastReceiver {
     public static final String INTENT_DATA = "INTENT_DATA";
     public static final String INTENT_THROWABLE = "INTENT_THROWABLE";
 
-    private String testURL = "http://demo001.service-now.com/incident.do?JSONv2&sysparm_action=getRecords&displayvalue=true&sysparm_record_count=1";
-    private String testUser = "admin";
-    private String testPWD = "admin";
+    public Context ctx;
+    private int count = 0;
 
     public TicketServiceReceiver() {
     }
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        // New instance of the SecurePrefs
-        SecurePreferences preferences = new SecurePreferences(context,"Credentials","TIMSK@2015!",true);
-        // Get our base URL
-        String instanceURL = preferences.getString("lastInstance");
-        // Get our credentials
-        String userName = preferences.getString("username");
-        String password = preferences.getString("password");
-
+        this.ctx = context;
         // Get intent extras
         Bundle extras = intent.getExtras();
+        Log.i(LOG_TAG,"Username: " + extras.get("Username"));
+        String userName = extras.getString("Username");
+        String password = extras.getString("Password");
+
         // Look for the intent extra key "Request" as it will tell us what "Service" to perform
         if(extras.containsKey("Request")) //TODO Make this a SWITCH/CASE
         {
@@ -50,17 +65,29 @@ public class TicketServiceReceiver extends WakefulBroadcastReceiver {
              * Just log it for now, in the future we will take action
              * based upon the "Request" value
              */
-            Log.i(LOG_TAG,"FOUND KEY: " + extras.getString("Request"));
+            Log.i(LOG_TAG,"FOUND URI: " + extras.getString("Request"));
         }
-        
-        ServiceNowRestClient.get(testURL, null, new JsonHttpResponseHandler()
+        ServiceNowRestClient.setBaseURL(extras.getString("BaseURL"));
+        ServiceNowRestClient.get(extras.getString("Request"), null, new JsonHttpResponseHandler()
         {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
-                Log.i(LOG_TAG, "JSON Object: " + response.toString());
-                Log.i(LOG_TAG, "Headers: " + headers.toString());
+                Log.i(LOG_TAG, "JSON Object: " + response);
+
+                Gson gson = new Gson();
+                Incident.Incidents incidents = gson.fromJson(response.toString(), Incident.Incidents.class);
+                List<Incident> incidentsList = incidents.getRecords();
+                for(int i=0; i < incidentsList.size(); i++)
+                {
+                    String id = incidentsList.get(i).getSys_id();
+                    Log.i(LOG_TAG,"SYS-ID: " + id);
+                    count++;
+
+                }
+
                 Log.i(LOG_TAG, "Status Code: " + String.valueOf(statusCode));
+                notifyMe(String.valueOf(count));
             }
 
             @Override
@@ -83,5 +110,30 @@ public class TicketServiceReceiver extends WakefulBroadcastReceiver {
                 Log.e(LOG_TAG,"ERROR: " + String.valueOf(statusCode));
             }
         },userName, password);
+    }
+
+    public void notifyMe(String msg)
+    {
+        NotificationManager mNotificationManager;
+        mNotificationManager = (NotificationManager)
+                ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent pendingintent = new Intent(ctx, MyTicketsActivity.class);
+        //pendingintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,pendingintent, 0);
+
+
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(ctx)
+                        .setSmallIcon(R.drawable.abc_btn_check_to_on_mtrl_015)
+                        .setContentTitle("DroidNow")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(msg))
+                        .setContentText(msg);
+
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(1, mBuilder.build());
     }
 }

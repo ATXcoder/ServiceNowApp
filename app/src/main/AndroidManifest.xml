@@ -15,6 +15,13 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
+
+        <activity android:name=".MyTicketsActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="org.acra.CrashReportDialog"
             android:excludeFromRecents="true"
@@ -26,7 +33,6 @@
             android:label="ServiceNow" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
